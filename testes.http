@@ -1,0 +1,18 @@
+### Registrar usuário
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Felipe Teste",
+  "email": "felipe@teste.com",
+  "password": "senha12345"
+}
+
+### Fazer login
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "felipe@teste.com",
+  "password": "senha12345"
+}
