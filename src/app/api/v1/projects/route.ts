@@ -1,6 +1,7 @@
 import { getUserOrError } from '@/lib/auth/getUser'
 import { apiResponse, apiError } from '@/lib/validation/apiResponse'
 import { carrosselSchema } from '@/lib/validation/carrosselSchema'
+import { createProject } from '@/lib/projects/createProject'
 
 export async function GET(request: Request) {
   const { supabase, errorResponse } = await getUserOrError()
@@ -45,15 +46,12 @@ export async function POST(request: Request) {
       contentToSave = body.content
     }
 
-    const { data, error } = await supabase!
-      .from('projects')
-      .insert({
-        user_id: user!.id,
-        title: body.title,
-        content: contentToSave,
-      })
-      .select()
-      .single()
+    const { data, error } = await createProject({
+      supabase: supabase!,
+      userId: user!.id,
+      title: body.title,
+      content: contentToSave,
+    })
 
     if (error) {
       return apiError('Erro ao criar projeto', 500)
