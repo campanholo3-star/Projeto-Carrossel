@@ -5,11 +5,13 @@ import { Project } from '@/types'
 import { listProjects, deleteProject } from '@/lib/api/projects'
 import { ProjectCard } from '@/components/dashboard/ProjectCard'
 import { EmptyState } from '@/components/dashboard/EmptyState'
+import { ImportModal } from '@/components/dashboard/ImportModal'
 
 export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false)
 
   useEffect(() => {
     fetchProjects()
@@ -71,10 +73,18 @@ export default function DashboardPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-bold text-white">Meus Projetos</h1>
+        {projects.length > 0 && (
+          <button 
+            onClick={() => setIsImportModalOpen(true)}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition-colors"
+          >
+            Importar Projeto
+          </button>
+        )}
       </div>
 
       {projects.length === 0 ? (
-        <EmptyState />
+        <EmptyState onOpenImport={() => setIsImportModalOpen(true)} />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {projects.map((project) => (
@@ -82,6 +92,15 @@ export default function DashboardPage() {
           ))}
         </div>
       )}
+
+      <ImportModal 
+        isOpen={isImportModalOpen} 
+        onClose={() => setIsImportModalOpen(false)} 
+        onSuccess={() => {
+          setIsImportModalOpen(false)
+          fetchProjects()
+        }}
+      />
     </div>
   )
 }

@@ -27,3 +27,14 @@ export async function deleteProject(id: string): Promise<ApiResponse<{ deleted: 
   })
   return res.json()
 }
+
+export async function importProject(jsonString: string): Promise<ApiResponse<{ id: string, title: string }>> {
+  const res = await fetch(`/api/v1/import`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonString,
+  })
+  return res.json()
+}
