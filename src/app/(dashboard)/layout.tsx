@@ -25,7 +25,7 @@ export default async function DashboardLayout({
           <Link href="/dashboard" className="block px-4 py-2 rounded-lg bg-indigo-600/10 text-indigo-400 font-medium">
             Projetos
           </Link>
-          <Link href="/import" className="block px-4 py-2 rounded-lg hover:bg-slate-900 text-slate-400 hover:text-white transition-colors">
+          <Link href="/dashboard?import=true" className="block px-4 py-2 rounded-lg hover:bg-slate-900 text-slate-400 hover:text-white transition-colors">
             Importar
           </Link>
         </nav>

@@ -25,9 +25,17 @@ export const slideSchema = z.object({
   imageStyle: z.string().nullable().optional(),
   referenceSuggestion: z.string().nullable().optional(),
   imageUrl: z.string().url('URL de imagem inválida').nullable().optional(),
-  layout: z.enum(['center', 'top', 'bottom', 'split'], {
-    message: 'Layout inválido (use center, top, bottom ou split)',
-  }),
+  imageFit: z.enum(['cover', 'contain', 'fill']).nullable().optional(),
+  icon: z.string().nullable().optional(),
+  layout: z.enum(['center', 'top', 'bottom', 'split']).optional(),
+  template: z.enum(['capa', 'conteudo', 'lista', 'citacao', 'imagem', 'cta']).default('conteudo'),
+  author: z.string().nullable().optional(),
+  fontSettings: z.object({
+    titleSize: z.string().optional(),
+    bodySize: z.string().optional(),
+    titleColor: z.string().regex(hexColorRegex, colorErrorMsg).optional(),
+    bodyColor: z.string().regex(hexColorRegex, colorErrorMsg).optional(),
+  }).nullable().optional(),
 })
 
 export const carrosselSchema = z.object({

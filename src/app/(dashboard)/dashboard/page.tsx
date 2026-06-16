@@ -6,16 +6,26 @@ import { listProjects, deleteProject } from '@/lib/api/projects'
 import { ProjectCard } from '@/components/dashboard/ProjectCard'
 import { EmptyState } from '@/components/dashboard/EmptyState'
 import { ImportModal } from '@/components/dashboard/ImportModal'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { Suspense } from 'react'
 
-export default function DashboardPage() {
+function DashboardContent() {
   const [projects, setProjects] = useState<Project[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isImportModalOpen, setIsImportModalOpen] = useState(false)
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   useEffect(() => {
     fetchProjects()
   }, [])
+
+  useEffect(() => {
+    if (searchParams?.get('import') === 'true') {
+      setIsImportModalOpen(true)
+    }
+  }, [searchParams])
 
   const fetchProjects = async () => {
     setIsLoading(true)
@@ -95,12 +105,24 @@ export default function DashboardPage() {
 
       <ImportModal 
         isOpen={isImportModalOpen} 
-        onClose={() => setIsImportModalOpen(false)} 
+        onClose={() => {
+          setIsImportModalOpen(false)
+          router.replace('/dashboard', { scroll: false })
+        }} 
         onSuccess={() => {
           setIsImportModalOpen(false)
+          router.replace('/dashboard', { scroll: false })
           fetchProjects()
         }}
       />
     </div>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" /></div>}>
+      <DashboardContent />
+    </Suspense>
   )
 }

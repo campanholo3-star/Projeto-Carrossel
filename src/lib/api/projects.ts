@@ -38,3 +38,24 @@ export async function importProject(jsonString: string): Promise<ApiResponse<{ i
   })
   return res.json()
 }
+
+export async function getProject(id: string): Promise<ApiResponse<Project>> {
+  const res = await fetch(`/api/v1/projects/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return res.json()
+}
+
+export async function updateProject(id: string, payload: Partial<Project>): Promise<ApiResponse<Project>> {
+  const res = await fetch(`/api/v1/projects/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+  return res.json()
+}

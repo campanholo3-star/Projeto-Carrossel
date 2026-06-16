@@ -24,7 +24,7 @@ export interface Project {
   title: string
   source_url: string | null
   template_id: string | null
-  content: Record<string, unknown> // Será do tipo CarrosselInput após validação
+  content: CarrosselData // Já validado pelo backend
   brand_handle: string | null
   keywords: string[]
   language: string
@@ -65,7 +65,17 @@ export interface Slide {
   imageStyle?: string | null
   referenceSuggestion?: string | null
   imageUrl?: string | null
-  layout: Layout
+  imageFit?: 'cover' | 'contain' | 'fill' | null
+  icon?: string | null
+  layout?: Layout // Mantido opcional para retrocompatibilidade
+  template?: 'capa' | 'conteudo' | 'lista' | 'citacao' | 'imagem' | 'cta'
+  author?: string | null
+  fontSettings?: {
+    titleSize?: string
+    bodySize?: string
+    titleColor?: string
+    bodyColor?: string
+  } | null
 }
 
 export interface CarrosselData {
