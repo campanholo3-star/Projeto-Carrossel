@@ -7,6 +7,8 @@ import { SlideSidebar } from './SlideSidebar'
 import { SlidePreview } from './SlidePreview'
 import { SlideNavigator } from './SlideNavigator'
 import { SaveButton } from './SaveButton'
+import { ExportButton } from './ExportButton'
+import { HiddenRenderArea } from './HiddenRenderArea'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
@@ -39,6 +41,7 @@ export function EditorShell({ initialProject }: EditorShellProps) {
         
         <div className="flex items-center gap-4">
           <SlideNavigator />
+          <ExportButton />
           <SaveButton />
         </div>
       </header>
@@ -55,6 +58,8 @@ export function EditorShell({ initialProject }: EditorShellProps) {
           <SlidePreview />
         </section>
       </main>
+      
+      <HiddenRenderArea />
     </div>
   )
 }
